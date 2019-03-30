@@ -1,6 +1,7 @@
 import numpy as np
 from scipy.optimize import minimize
 from math import sqrt
+from numpy import exp as exp
 import pickle
 '''
 You need to modify the functions except for initializeWeights() and preprocess()
@@ -60,11 +61,15 @@ def sigmoid(z):
     return the sigmoid of input z (same dimensions as z)
     '''
     # your code here - remove the next four lines
-    if np.isscalar(z):
-        s = 0
-    else:
-        s = np.zeros(z.shape)
-    return s
+    #if np.isscalar(z):
+        #s = 0
+    #else:
+        #s = np.zeros(z.shape)
+    #return s
+    sigmoid_function = 1 / (1 + exp(-z))
+    return sigmoid_function
+
+
 
 def nnObjFunction(params, *args):
     '''
@@ -101,13 +106,47 @@ def nnObjFunction(params, *args):
     W1 = params[0:n_hidden * (n_input + 1)].reshape((n_hidden, (n_input + 1)))
     W2 = params[(n_hidden * (n_input + 1)):].reshape((n_class, (n_hidden + 1)))
     obj_val = 0
+    #Most comments are to help me visualize the shape
+    #print(W1.shape)         (3,6)
+    #print(train_data.shape) (2,5)
+    #(2,5) x (3,6)
+    bias_input_array = np.ones((train_data.shape[0],1))
+    train_data_with_bias = np.append(train_data,bias_input_array,1)
+    #print(train_data)
+    #print(train_data_with_bias)
+    w1_transpose = np.transpose(W1)
+    hidden_matrix = np.dot(train_data_with_bias,w1_transpose)
+    sigmoid_hidden_matrix = sigmoid(hidden_matrix)
+    #print(sigmoid_hidden_matrix.shape)   (2,3)
+    #print(W2.shape)                      (2,4)
+    bias_sigmoid = np.ones((sigmoid_hidden_matrix.shape[0],1))
+    sigmoid_hidden_matrix_with_bias = np.append(sigmoid_hidden_matrix,bias_sigmoid,1)
+    #print(sigmoid_hidden_matrix_with_bias.shape)    (2,4)
+    w2_transpose = np.transpose(W2)
+    output_matrix = np.dot(sigmoid_hidden_matrix_with_bias,w2_transpose)
+    print(output_matrix.shape)
+    output_matrix_sigmoid = sigmoid(output_matrix)
+    #print(output_matrix_sigmoid)
 
+
+
+    #print(train_data)
+    #print(train_data)
     # Your code here
     #
     #
     #
     #
     #
+    #1ofK encoding for the train_label
+    ret = np.zeros((train_label.size, 3))
+    #The following commented lines are just for visual purposes. The example is from piazza.
+    # Z = np.zeros((4,3))
+    # z = [2,0,1,1]
+    # (0,2),(1,0),(2,1),(3,1)
+    # Y[(0,1,2,3),(2,0,1,1)]]=1
+    index = np.arange(0, train_label.size, 1)
+    ret[index, train_label[0:train_label.size]] = 1
 
 
 
@@ -119,7 +158,8 @@ def nnObjFunction(params, *args):
 
     return (obj_val, obj_grad)
 
-
+def forward_prop():
+    return 5
 def nnPredict(W1, W2, data):
     '''
     % nnPredict predicts the label of data given the parameter W1, W2 of Neural
@@ -139,3 +179,25 @@ def nnPredict(W1, W2, data):
     # Your code here
 
     return labels
+
+
+def main():
+    # Paste your sigmoid function here
+
+    # Paste your nnObjFunction here
+
+    n_input = 5
+    n_hidden = 3
+    n_class = 2
+    training_data = np.array([np.linspace(0, 1, num=5), np.linspace(1, 0, num=5)])
+    training_label = np.array([0, 1])
+    lambdaval = 0
+    params = np.linspace(-5, 5, num=26)
+    args = (n_input, n_hidden, n_class, training_data, training_label, lambdaval)
+    objval, objgrad = nnObjFunction(params, *args)
+    #print("Objective value:")
+    #print(objval)
+    #print("Gradient values: ")
+    #print(objgrad)
+
+main()
