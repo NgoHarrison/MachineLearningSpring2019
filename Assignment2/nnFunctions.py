@@ -106,6 +106,7 @@ def nnObjFunction(params, *args):
     W1 = params[0:n_hidden * (n_input + 1)].reshape((n_hidden, (n_input + 1)))
     W2 = params[(n_hidden * (n_input + 1)):].reshape((n_class, (n_hidden + 1)))
     obj_val = 0
+
     #Most comments are to help me visualize the shape
     #print(W1.shape)         (3,6)
     #print(train_data.shape) (2,5)
@@ -158,8 +159,30 @@ def nnObjFunction(params, *args):
 
     return (obj_val, obj_grad)
 
-def forward_prop():
-    return 5
+def forward_prop(W1 , W2, train_data):
+    # Most comments are to help me visualize the shape
+    # print(W1.shape)         (3,6)
+    # print(train_data.shape) (2,5)
+    # (2,5) x (3,6)
+    bias_input_array = np.ones((train_data.shape[0], 1))
+    train_data_with_bias = np.append(train_data, bias_input_array, 1)
+    # print(train_data)
+    # print(train_data_with_bias)
+    w1_transpose = np.transpose(W1)
+    hidden_matrix = np.dot(train_data_with_bias, w1_transpose)
+    sigmoid_hidden_matrix = sigmoid(hidden_matrix)
+    # print(sigmoid_hidden_matrix.shape)   (2,3)
+    # print(W2.shape)                      (2,4)
+    bias_sigmoid = np.ones((sigmoid_hidden_matrix.shape[0], 1))
+    sigmoid_hidden_matrix_with_bias = np.append(sigmoid_hidden_matrix, bias_sigmoid, 1)
+    # print(sigmoid_hidden_matrix_with_bias.shape)    (2,4)
+    w2_transpose = np.transpose(W2)
+    output_matrix = np.dot(sigmoid_hidden_matrix_with_bias, w2_transpose)
+    print(output_matrix.shape)
+    output_matrix_sigmoid = sigmoid(output_matrix)
+    # print(output_matrix_sigmoid)
+    return output_matrix_sigmoid
+
 def nnPredict(W1, W2, data):
     '''
     % nnPredict predicts the label of data given the parameter W1, W2 of Neural
