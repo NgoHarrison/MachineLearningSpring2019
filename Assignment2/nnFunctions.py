@@ -1,6 +1,7 @@
 import numpy as np
 from scipy.optimize import minimize
 from math import sqrt
+import math
 from numpy import exp as exp
 import pickle
 '''
@@ -11,11 +12,9 @@ def initializeWeights(n_in, n_out):
     '''
     initializeWeights return the random weights for Neural Network given the
     number of node in the input layer and output layer
-
     Input:
     n_in: number of nodes of the input layer
     n_out: number of nodes of the output layer
-
     Output:
     W: matrix of random initial weights with size (n_out x (n_in + 1))
     '''
@@ -76,7 +75,6 @@ def nnObjFunction(params, *args):
     % nnObjFunction computes the value of objective function (cross-entropy
     % with regularization) given the weights and the training data and lambda
     % - regularization hyper-parameter.
-
     % Input:
     % params: vector of weights of 2 matrices W1 (weights of connections from
     %     input layer to hidden layer) and W2 (weights of connections from
@@ -92,7 +90,6 @@ def nnObjFunction(params, *args):
     %     in the vector represents the truth label of its corresponding image.
     % lambda: regularization hyper-parameter. This value is used for fixing the
     %     overfitting problem.
-
     % Output:
     % obj_val: a scalar value representing value of error function
     % obj_grad: a SINGLE vector (not a matrix) of gradient value of error function
@@ -106,7 +103,11 @@ def nnObjFunction(params, *args):
     W1 = params[0:n_hidden * (n_input + 1)].reshape((n_hidden, (n_input + 1)))
     W2 = params[(n_hidden * (n_input + 1)):].reshape((n_class, (n_hidden + 1)))
     obj_val = 0
-
+    # Your code here
+    #
+    #
+    #
+    #
     #Most comments are to help me visualize the shape
     #print(W1.shape)         (3,6)
     #print(train_data.shape) (2,5)
@@ -114,9 +115,13 @@ def nnObjFunction(params, *args):
     bias_input_array = np.ones((train_data.shape[0],1))
     train_data_with_bias = np.append(train_data,bias_input_array,1)
     #print(train_data)
-    #print(train_data_with_bias)
+    #print(train_data_with_bias.shape)    (2,6)
     w1_transpose = np.transpose(W1)
+    #print(w1_transpose.shape)
     hidden_matrix = np.dot(train_data_with_bias,w1_transpose)
+    #print(hidden_matrix.shape)   (2,3)
+    #print(hidden_matrix)
+    #print(sigmoid(hidden_matrix))
     sigmoid_hidden_matrix = sigmoid(hidden_matrix)
     #print(sigmoid_hidden_matrix.shape)   (2,3)
     #print(W2.shape)                      (2,4)
@@ -125,29 +130,26 @@ def nnObjFunction(params, *args):
     #print(sigmoid_hidden_matrix_with_bias.shape)    (2,4)
     w2_transpose = np.transpose(W2)
     output_matrix = np.dot(sigmoid_hidden_matrix_with_bias,w2_transpose)
-    print(output_matrix.shape)
+    #print(output_matrix.shape)
     output_matrix_sigmoid = sigmoid(output_matrix)
     #print(output_matrix_sigmoid)
+    train_label_k_encoding = one_of_k(train_label)
+    #print(train_label_k_encoding)
+    #print(train_label_k_encoding.shape)       (2,2)
+    #print(output_matrix_sigmoid.shape)        (2,2)
+    left_side = -1/output_matrix_sigmoid.shape[0]
+    error = left_side * np.sum(np.dot(train_label_k_encoding, np.log(output_matrix_sigmoid)) + np.dot((1 - train_label_k_encoding),np.log(1 - output_matrix_sigmoid)))
+    delta = output_matrix_sigmoid - train_label_k_encoding
+    #NO BIAS FOR HIDDEN
+    back_prop_left = np.dot(1-sigmoid_hidden_matrix,np.transpose(sigmoid_hidden_matrix))
+    summation = np.sum(np.dot(delta,W2))
+    back_prop_middle = np.dot(back_prop_left,summation)
+    back_prop_final = np.dot(back_prop_middle,train_data)
 
 
 
-    #print(train_data)
-    #print(train_data)
-    # Your code here
-    #
-    #
-    #
-    #
-    #
-    #1ofK encoding for the train_label
-    ret = np.zeros((train_label.size, 3))
-    #The following commented lines are just for visual purposes. The example is from piazza.
-    # Z = np.zeros((4,3))
-    # z = [2,0,1,1]
-    # (0,2),(1,0),(2,1),(3,1)
-    # Y[(0,1,2,3),(2,0,1,1)]]=1
-    index = np.arange(0, train_label.size, 1)
-    ret[index, train_label[0:train_label.size]] = 1
+
+
 
 
 
@@ -158,6 +160,20 @@ def nnObjFunction(params, *args):
     obj_grad = np.zeros(params.shape)
 
     return (obj_val, obj_grad)
+
+def one_of_k(train_label):
+    #1ofK encoding for the train_label
+    ret = np.zeros((train_label.size, np.unique(train_label).size))
+    # print(ret)
+    # Z = np.zeros((4,3))
+    # z = [2,0,1,1]
+    # (0,2),(1,0),(2,1),(3,1)
+    # Y[(0,1,2,3),(2,0,1,1)]]=1
+    index = np.arange(0, train_label.size, 1)
+
+    ret[index, train_label[0:train_label.size]] = 1
+    # print(ret)
+    return ret
 
 def forward_prop(W1 , W2, train_data):
     # Most comments are to help me visualize the shape
@@ -187,13 +203,11 @@ def nnPredict(W1, W2, data):
     '''
     % nnPredict predicts the label of data given the parameter W1, W2 of Neural
     % Network.
-
     % Input:
     % W1: matrix of weights for hidden layer units
     % W2: matrix of weights for output layer units
     % data: matrix of data. Each row of this matrix represents the feature
     %       vector of a particular image
-
     % Output:
     % label: a column vector of predicted labels
     '''
