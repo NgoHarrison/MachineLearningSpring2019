@@ -228,7 +228,7 @@ def nnPredict(W1, W2, data):
     #call forward pass
     final = forward_prop(W1,W2,data)
     #get the max values along each row
-    return np.argmax(final,1)
+    return np.argmax(final,0)
 
 
 def main():
@@ -241,7 +241,7 @@ def main():
     n_class = 2
     training_data = np.array([np.linspace(0, 1, num=5), np.linspace(1, 0, num=5)])
     training_label = np.array([0, 1])
-    lambdaval = 0
+    lambdaval = 1
     params = np.linspace(-5, 5, num=26)
     args = (n_input, n_hidden, n_class, training_data, training_label, lambdaval)
     objval, objgrad = nnObjFunction(params, *args)
