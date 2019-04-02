@@ -138,28 +138,37 @@ def nnObjFunction(params, *args):
     #print(train_label_k_encoding.shape)       (2,2)
     #print(output_matrix_sigmoid.shape)        (2,2)
     left_side = -1/output_matrix_sigmoid.shape[0]
-    error = left_side * np.sum(np.dot(train_label_k_encoding, np.log(output_matrix_sigmoid)) + np.dot((1 - train_label_k_encoding),np.log(1 - output_matrix_sigmoid)))
+    one_matrix_out = np.ones((output_matrix_sigmoid.shape))
+    one_matrix_train = np.ones((train_label_k_encoding.shape))
+
+    error = left_side * np.sum((train_label_k_encoding *np.log(output_matrix_sigmoid)) + ((1 - train_label_k_encoding)*np.log(1 - output_matrix_sigmoid)))
     delta = output_matrix_sigmoid - train_label_k_encoding
-    #NO BIAS FOR HIDDEN
-    back_prop_left = np.dot(1-sigmoid_hidden_matrix,np.transpose(sigmoid_hidden_matrix))
-    summation = np.sum(np.dot(delta,W2))
-    back_prop_middle = np.dot(back_prop_left,summation)
-    back_prop_final = np.dot(back_prop_middle,train_data)
+    #print(delta.shape)    (2,2)
+    #print(sigmoid_hidden_matrix_with_bias.shape)    (2,3)
 
+    #W2
+    partial_w2 = np.dot(delta,sigmoid_hidden_matrix_with_bias)
+    grad_W2 = (1/train_data.shape[0])*(partial_w2+(lambdaval*W2))
 
-
-
-
+    #W1
+    partial_w1 = ((1-sigmoid_hidden_matrix_with_bias) * sigmoid_hidden_matrix_with_bias)*(np.dot(delta,W2))
+    #print(partial_w1.shape) (2,4)
+    partial_w1 = np.dot(np.transpose(partial_w1),train_data_with_bias)
+    #print(W1.shape)   (3,6)
+    #print(partial_w1)  (4,6)
+    #The last row is all zeros, so I decided to erase it from the matrix.
+    #This won't affect computation since we are just adding
+    grad_W1 = (1/train_data.shape[0]) * (partial_w1[0:partial_w1.shape[0]-1] + (lambdaval*W1))
 
 
 
     # Make sure you reshape the gradient matrices to a 1D array. for instance if
     # your gradient matrices are grad_W1 and grad_W2
     # you would use code similar to the one below to create a flat array
-    # obj_grad = np.concatenate((grad_W1.flatten(), grad_W2.flatten()),0)
-    obj_grad = np.zeros(params.shape)
+    obj_grad = np.concatenate((grad_W1.flatten(), grad_W2.flatten()),0)
+    #obj_grad = np.zeros(params.shape)
 
-    return (obj_val, obj_grad)
+    return (error, obj_grad)
 
 def one_of_k(train_label):
     #1ofK encoding for the train_label
@@ -234,7 +243,7 @@ def main():
     objval, objgrad = nnObjFunction(params, *args)
     #print("Objective value:")
     #print(objval)
-    #print("Gradient values: ")
-    #print(objgrad)
+    print("Gradient values: ")
+    print(objgrad)
 
 main()
