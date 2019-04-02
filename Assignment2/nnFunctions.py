@@ -147,12 +147,13 @@ def nnObjFunction(params, *args):
     #print(sigmoid_hidden_matrix_with_bias.shape)    (2,3)
 
     #W2
-    partial_w2 = np.dot(delta,sigmoid_hidden_matrix_with_bias)
+    partial_w2 = np.dot(np.transpose(delta),sigmoid_hidden_matrix_with_bias)
     grad_W2 = (1/train_data.shape[0])*(partial_w2+(lambdaval*W2))
 
     #W1
     partial_w1 = ((1-sigmoid_hidden_matrix_with_bias) * sigmoid_hidden_matrix_with_bias)*(np.dot(delta,W2))
     #print(partial_w1.shape) (2,4)
+    #print(train_data_with_bias.shape)    (2,6)    (2,4)*(2,6) -> (4,2)*(2,6)
     partial_w1 = np.dot(np.transpose(partial_w1),train_data_with_bias)
     #print(W1.shape)   (3,6)
     #print(partial_w1)  (4,6)
@@ -223,7 +224,11 @@ def nnPredict(W1, W2, data):
 
     #labels = np.zeros((data.shape[0],))
     # Your code here
-    return forward_prop(W1,W2,data)
+
+    #call forward pass
+    final = forward_prop(W1,W2,data)
+    #get the max values along each row
+    return np.argmax(final,1)
 
 
 def main():
@@ -236,7 +241,7 @@ def main():
     n_class = 2
     training_data = np.array([np.linspace(0, 1, num=5), np.linspace(1, 0, num=5)])
     training_label = np.array([0, 1])
-    lambdaval = 1
+    lambdaval = 0
     params = np.linspace(-5, 5, num=26)
     args = (n_input, n_hidden, n_class, training_data, training_label, lambdaval)
     objval, objgrad = nnObjFunction(params, *args)
