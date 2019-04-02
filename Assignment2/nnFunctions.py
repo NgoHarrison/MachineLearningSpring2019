@@ -228,7 +228,7 @@ def nnPredict(W1, W2, data):
     #call forward pass
     final = forward_prop(W1,W2,data)
     #get the max values along each row
-    return np.argmax(final,0)
+    return np.argmax(final,1)
 
 
 def main():
