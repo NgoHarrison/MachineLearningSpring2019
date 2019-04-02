@@ -2,17 +2,19 @@
 Neural Network Script Starts here
 '''
 from nnFunctions import *
+import time
 # you may experiment with a small data set (mnist_sample.pickle) first
-filename = '../basecode/mnist_all.pickle'
-#filename = 'AI_quick_draw.pickle'
+filename = '/Users/Harrison/Downloads/mnist_all.pickle'
+#filename = '/Users/Harrison/Downloads/AI_quick_draw.pickle'
 train_data, train_label, test_data, test_label = preprocess(filename)
 
 #  Train Neural Network
 # set the number of nodes in input unit (not including bias unit)
+begin_time = time.time()
 n_input = train_data.shape[1]
 
 # set the number of nodes in hidden unit (not including bias unit)
-n_hidden = 50
+n_hidden = 4
 
 # set the number of nodes in output unit
 n_class = 10
@@ -48,3 +50,10 @@ print('\n Training set Accuracy:' + str(100 * np.mean((predicted_label == train_
 # find the accuracy on Testing Dataset
 predicted_label = nnPredict(W1, W2, test_data)
 print('\n Test set Accuracy:    ' + str(100 * np.mean((predicted_label == test_label).astype(float))) + '%')
+
+endtime = time.time()
+complete = end_time - begin_time
+min = int(complete/60)
+secs = round(complete % 60, 2)
+
+print("Your program finished in %d minutes %d seconds!" % (min, secs))
