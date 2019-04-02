@@ -141,7 +141,7 @@ def nnObjFunction(params, *args):
     one_matrix_out = np.ones((output_matrix_sigmoid.shape))
     one_matrix_train = np.ones((train_label_k_encoding.shape))
 
-    error = left_side * np.sum((train_label_k_encoding *np.log(output_matrix_sigmoid)) + ((1 - train_label_k_encoding)*np.log(1 - output_matrix_sigmoid)))
+    obj_val = left_side * np.sum((train_label_k_encoding *np.log(output_matrix_sigmoid)) + ((1 - train_label_k_encoding)*np.log(1 - output_matrix_sigmoid)))
     delta = output_matrix_sigmoid - train_label_k_encoding
     #print(delta.shape)    (2,2)
     #print(sigmoid_hidden_matrix_with_bias.shape)    (2,3)
@@ -160,7 +160,7 @@ def nnObjFunction(params, *args):
     #This won't affect computation since we are just adding
     grad_W1 = (1/train_data.shape[0]) * (partial_w1[0:partial_w1.shape[0]-1] + (lambdaval*W1))
 
-
+    new_obj_val = obj_val+(lambdaval/(2*train_data.shape[0])) * ((np.sum(W1**2)) + (np.sum(W2**2)))
 
     # Make sure you reshape the gradient matrices to a 1D array. for instance if
     # your gradient matrices are grad_W1 and grad_W2
@@ -168,7 +168,7 @@ def nnObjFunction(params, *args):
     obj_grad = np.concatenate((grad_W1.flatten(), grad_W2.flatten()),0)
     #obj_grad = np.zeros(params.shape)
 
-    return (error, obj_grad)
+    return (new_obj_val, obj_grad)
 
 def one_of_k(train_label):
     #1ofK encoding for the train_label
@@ -221,10 +221,9 @@ def nnPredict(W1, W2, data):
     % label: a column vector of predicted labels
     '''
 
-    labels = np.zeros((data.shape[0],))
+    #labels = np.zeros((data.shape[0],))
     # Your code here
-
-    return labels
+    return forward_prop(W1,W2,data)
 
 
 def main():
@@ -237,12 +236,12 @@ def main():
     n_class = 2
     training_data = np.array([np.linspace(0, 1, num=5), np.linspace(1, 0, num=5)])
     training_label = np.array([0, 1])
-    lambdaval = 0
+    lambdaval = 1
     params = np.linspace(-5, 5, num=26)
     args = (n_input, n_hidden, n_class, training_data, training_label, lambdaval)
     objval, objgrad = nnObjFunction(params, *args)
-    #print("Objective value:")
-    #print(objval)
+    print("Objective value:")
+    print(objval)
     print("Gradient values: ")
     print(objgrad)
 
