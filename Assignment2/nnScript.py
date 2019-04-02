@@ -51,7 +51,7 @@ print('\n Training set Accuracy:' + str(100 * np.mean((predicted_label == train_
 predicted_label = nnPredict(W1, W2, test_data)
 print('\n Test set Accuracy:    ' + str(100 * np.mean((predicted_label == test_label).astype(float))) + '%')
 
-endtime = time.time()
+end_time = time.time()
 complete = end_time - begin_time
 min = int(complete/60)
 secs = round(complete % 60, 2)
