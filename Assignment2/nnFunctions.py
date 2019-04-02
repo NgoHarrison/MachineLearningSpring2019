@@ -137,31 +137,36 @@ def nnObjFunction(params, *args):
     #print(train_label_k_encoding)
     #print(train_label_k_encoding.shape)       (2,2)
     #print(output_matrix_sigmoid.shape)        (2,2)
-    left_side = -1/output_matrix_sigmoid.shape[0]
     one_matrix_out = np.ones((output_matrix_sigmoid.shape))
     one_matrix_train = np.ones((train_label_k_encoding.shape))
 
-    obj_val = left_side * np.sum((train_label_k_encoding *np.log(output_matrix_sigmoid)) + ((1 - train_label_k_encoding)*np.log(1 - output_matrix_sigmoid)))
+    obj_val = (-1/output_matrix_sigmoid.shape[0]) * np.sum((train_label_k_encoding *np.log(output_matrix_sigmoid)) + ((1 - train_label_k_encoding)*np.log(1 - output_matrix_sigmoid)))
     delta = output_matrix_sigmoid - train_label_k_encoding
     #print(delta.shape)    (2,2)
     #print(sigmoid_hidden_matrix_with_bias.shape)    (2,3)
 
-    #W2
-    partial_w2 = np.dot(np.transpose(delta),sigmoid_hidden_matrix_with_bias)
-    grad_W2 = (1/train_data.shape[0])*(partial_w2+(lambdaval*W2))
+    # W2
+    #partial_w2 = delta*sigmoid_hidden_matrix_with_bias
+    partial_w2 = np.dot(np.transpose(delta), sigmoid_hidden_matrix_with_bias)
+    grad_W2 = (1 / train_data.shape[0]) * (partial_w2 + (lambdaval * W2))
+    # W1
+    partial_w1 = ((1 - sigmoid_hidden_matrix_with_bias) * sigmoid_hidden_matrix_with_bias) * (np.dot(delta, W2))
+    # print(partial_w1.shape) (2,4)
+    # print(train_data_with_bias.shape)    (2,6)    (2,4)*(2,6) -> (4,2)*(2,6)
+    partial_w1 = np.dot(np.transpose(partial_w1), train_data_with_bias)
+    # print(W1.shape)   (3,6)
+    # print(partial_w1)  (4,6)
+    # The last row is all zeros, so I decided to erase it from the matrix to match the shapes.
+    # This won't affect computation since we are just adding
+    grad_W1 = (1 / train_data.shape[0]) * (partial_w1[0:partial_w1.shape[0] - 1] + (lambdaval * W1))
 
-    #W1
-    partial_w1 = ((1-sigmoid_hidden_matrix_with_bias) * sigmoid_hidden_matrix_with_bias)*(np.dot(delta,W2))
-    #print(partial_w1.shape) (2,4)
-    #print(train_data_with_bias.shape)    (2,6)    (2,4)*(2,6) -> (4,2)*(2,6)
-    partial_w1 = np.dot(np.transpose(partial_w1),train_data_with_bias)
-    #print(W1.shape)   (3,6)
-    #print(partial_w1)  (4,6)
-    #The last row is all zeros, so I decided to erase it from the matrix.
-    #This won't affect computation since we are just adding
-    grad_W1 = (1/train_data.shape[0]) * (partial_w1[0:partial_w1.shape[0]-1] + (lambdaval*W1))
+    new_obj_val = obj_val + (lambdaval / (2 * train_data.shape[0])) * ((np.sum(W1 ** 2)) + (np.sum(W2 ** 2)))
 
-    new_obj_val = obj_val+(lambdaval/(2*train_data.shape[0])) * ((np.sum(W1**2)) + (np.sum(W2**2)))
+    # Make sure you reshape the gradient matrices to a 1D array. for instance if
+    # your gradient matrices are grad_W1 and grad_W2
+    # you would use code similar to the one below to create a flat array
+    obj_grad = np.concatenate((grad_W1.flatten(), grad_W2.flatten()), 0)
+    # obj_grad = np.zeros(params.shape)
 
     # Make sure you reshape the gradient matrices to a 1D array. for instance if
     # your gradient matrices are grad_W1 and grad_W2
@@ -173,6 +178,7 @@ def nnObjFunction(params, *args):
 
 def one_of_k(train_label):
     #1ofK encoding for the train_label
+    new_train_label = np.array(train_label,dtype=np.int)
     ret = np.zeros((train_label.size, np.unique(train_label).size))
     # print(ret)
     # Z = np.zeros((4,3))
@@ -181,7 +187,7 @@ def one_of_k(train_label):
     # Y[(0,1,2,3),(2,0,1,1)]]=1
     index = np.arange(0, train_label.size, 1)
 
-    ret[index, train_label[0:train_label.size]] = 1
+    ret[index, new_train_label[0:train_label.size]] = 1
     # print(ret)
     return ret
 
@@ -228,6 +234,7 @@ def nnPredict(W1, W2, data):
     #call forward pass
     final = forward_prop(W1,W2,data)
     #get the max values along each row
+    #zero causes error so try axis = 1
     return np.argmax(final,1)
 
 
@@ -241,7 +248,7 @@ def main():
     n_class = 2
     training_data = np.array([np.linspace(0, 1, num=5), np.linspace(1, 0, num=5)])
     training_label = np.array([0, 1])
-    lambdaval = 1
+    lambdaval = 0
     params = np.linspace(-5, 5, num=26)
     args = (n_input, n_hidden, n_class, training_data, training_label, lambdaval)
     objval, objgrad = nnObjFunction(params, *args)
