@@ -36,6 +36,8 @@ training_iteration_num = 3000
 n_hidden_1 = 256  # 1st layer number of neurons
 n_hidden_2 = 256  # 2nd layer number of neurons
 n_hidden_3 = 256  # 3rd layer number of neurons
+n_hidden_4 = 256  # 4th layer number of neurons
+n_hidden_5 = 256  # 5th layer number of neurons
 n_input = data_train.shape[1]  # MNIST data input (img # shape: 28*28)
 n_classes = label_train.shape[1]  # MNIST total classes (0-9 digits)
 dropout = 0.5
@@ -49,12 +51,16 @@ weights = {
     'h1': tf.Variable(tf.random_normal([n_input, n_hidden_1])),
     'h2': tf.Variable(tf.random_normal([n_hidden_1, n_hidden_2])),
     'h3': tf.Variable(tf.random_normal([n_hidden_2, n_hidden_3])),
-    'out': tf.Variable(tf.random_normal([n_hidden_3, n_classes]))
+    'h4': tf.Variable(tf.random_normal([n_hidden_3, n_hidden_4])),
+    'h5': tf.Variable(tf.random_normal([n_hidden_4, n_hidden_5])),
+    'out': tf.Variable(tf.random_normal([n_hidden_5, n_classes]))
 }
 biases = {
     'b1': tf.Variable(tf.random_normal([n_hidden_1])),
     'b2': tf.Variable(tf.random_normal([n_hidden_2])),
     'b3': tf.Variable(tf.random_normal([n_hidden_3])),
+    'b4': tf.Variable(tf.random_normal([n_hidden_4])),
+    'b5': tf.Variable(tf.random_normal([n_hidden_5])),
     'out': tf.Variable(tf.random_normal([n_classes]))
 }
 
@@ -69,13 +75,19 @@ def multilayer_perceptron(x):
     layer_2 = tf.nn.sigmoid(layer_2)
     # layer_2 = tf.nn.dropout(layer_2, dropout)
 
+    layer_3 = tf.add(tf.matmul(layer_2, weights['h3']), biases['b3'])
+    layer_2 = tf.nn.sigmoid(layer_3)
+
+    layer_4 = tf.add(tf.matmul(layer_3, weights['h4']), biases['b4'])
+    layer_4 = tf.nn.sigmoid(layer_4)
+
     # Hidden fully connected layer with 128 neurons
-    layer_3 = tf.add(tf.matmul(layer_2,weights['h3']),biases['b3'])
-    layer_3 = tf.nn.sigmoid(layer_3)
+    layer_5 = tf.add(tf.matmul(layer_4,weights['h5']),biases['b5'])
+    layer_5 = tf.nn.sigmoid(layer_5)
 
 
     # Output fully connected layer with a neuron for each class
-    out_layer = tf.matmul(layer_3, weights['out']) + biases['out']
+    out_layer = tf.matmul(layer_5, weights['out']) + biases['out']
     return out_layer
 
 
