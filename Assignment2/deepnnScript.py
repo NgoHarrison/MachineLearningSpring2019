@@ -38,6 +38,8 @@ n_hidden_2 = 256  # 2nd layer number of neurons
 n_hidden_3 = 256  # 3rd layer number of neurons
 n_hidden_4 = 256  # 4th layer number of neurons
 n_hidden_5 = 256  # 5th layer number of neurons
+n_hidden_6 = 256  # 6th layer number of neurons
+n_hidden_7 = 256  # 7th layer number of neurons
 n_input = data_train.shape[1]  # MNIST data input (img # shape: 28*28)
 n_classes = label_train.shape[1]  # MNIST total classes (0-9 digits)
 dropout = 0.5
@@ -53,7 +55,9 @@ weights = {
     'h3': tf.Variable(tf.random_normal([n_hidden_2, n_hidden_3])),
     'h4': tf.Variable(tf.random_normal([n_hidden_3, n_hidden_4])),
     'h5': tf.Variable(tf.random_normal([n_hidden_4, n_hidden_5])),
-    'out': tf.Variable(tf.random_normal([n_hidden_5, n_classes]))
+    'h6': tf.Variable(tf.random_normal([n_hidden_5, n_hidden_6])),
+    'h7': tf.Variable(tf.random_normal([n_hidden_6, n_hidden_7])),
+    'out': tf.Variable(tf.random_normal([n_hidden_7, n_classes]))
 }
 biases = {
     'b1': tf.Variable(tf.random_normal([n_hidden_1])),
@@ -61,6 +65,8 @@ biases = {
     'b3': tf.Variable(tf.random_normal([n_hidden_3])),
     'b4': tf.Variable(tf.random_normal([n_hidden_4])),
     'b5': tf.Variable(tf.random_normal([n_hidden_5])),
+    'b6': tf.Variable(tf.random_normal([n_hidden_6])),
+    'b7': tf.Variable(tf.random_normal([n_hidden_7])),
     'out': tf.Variable(tf.random_normal([n_classes]))
 }
 
@@ -85,9 +91,14 @@ def multilayer_perceptron(x):
     layer_5 = tf.add(tf.matmul(layer_4,weights['h5']),biases['b5'])
     layer_5 = tf.nn.sigmoid(layer_5)
 
+    layer_6 = tf.add(tf.matmul(layer_5, weights['h6']), biases['b6'])
+    layer_6 = tf.nn.sigmoid(layer_6)
+
+    layer_7 = tf.add(tf.matmul(layer_6, weights['h6']), biases['b6'])
+    layer_7 = tf.nn.sigmoid(layer_7)
 
     # Output fully connected layer with a neuron for each class
-    out_layer = tf.matmul(layer_5, weights['out']) + biases['out']
+    out_layer = tf.matmul(layer_7, weights['out']) + biases['out']
     return out_layer
 
 
