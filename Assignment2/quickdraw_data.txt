@@ -1,0 +1,84 @@
+lambda = 0 , hidden = 50
+Training set Accuracy:74.543%
+(25000, 10)
+ Test set Accuracy:    73.74000000000001%
+Your program finished in 2 minutes 21 seconds!
+
+lambda = 10 , hidden = 50
+Training set Accuracy:75.124%
+(25000, 10)
+ Test set Accuracy:    74.576%
+Your program finished in 2 minutes 30 seconds!
+
+lambda = 20 , hidden = 50
+Training set Accuracy:73.685%
+(25000, 10)
+ Test set Accuracy:    73.152%
+Your program finished in 2 minutes 18 seconds!
+
+lambda = 30 , hidden = 50
+Training set Accuracy:74.495%
+(25000, 10)
+ Test set Accuracy:    74.028%
+Your program finished in 2 minutes 20 seconds!
+
+lambda = 40 , hidden = 50
+Training set Accuracy:74.818%
+(25000, 10)
+ Test set Accuracy:    74.18%
+Your program finished in 2 minutes 13 seconds!
+
+lambda = 50 , hidden = 50
+Training set Accuracy:76.805%
+(25000, 10)
+ Test set Accuracy:    75.96000000000001%
+Your program finished in 1 minutes 26 seconds!
+
+
+lambda = 60 , hidden = 50
+Training set Accuracy:76.15899999999999%
+(25000, 10)
+Test set Accuracy:    75.32%
+Your program finished in 1 minutes 13 seconds!
+
+lambda = 0 , hidden = 4
+Training set Accuracy:49.591%
+(25000, 10)
+Test set Accuracy:    48.624%
+Your program finished in 0 minutes 51 seconds!
+
+lambda = 0 , hidden = 8
+Training set Accuracy:59.89%
+(25000, 10)
+Test set Accuracy:    58.952000000000005%
+Your program finished in 0 minutes 57 seconds!
+
+lambda = 0 , hidden = 12
+Training set Accuracy:69.307%
+(25000, 10)
+ Test set Accuracy:    68.57600000000001%
+Your program finished in 0 minutes 58 seconds!
+
+lambda = 0 , hidden = 16
+Training set Accuracy:71.188%
+(25000, 10)
+Test set Accuracy:    70.684%
+Your program finished in 1 minutes 4 seconds!
+
+lambda = 0 , hidden = 20
+ Training set Accuracy:73.156%
+(25000, 10)
+ Test set Accuracy:    72.18%
+Your program finished in 1 minutes 20 seconds!
+
+lambda = 10 , hidden = 20
+Training set Accuracy:72.479%
+(25000, 10)
+ Test set Accuracy:    71.844%
+Your program finished in 1 minutes 4 seconds!
+
+lambda = 20 , hidden = 16
+Training set Accuracy:70.985%
+(25000, 10)
+Test set Accuracy:    70.00800000000001%
+Your program finished in 1 minutes 7 seconds!

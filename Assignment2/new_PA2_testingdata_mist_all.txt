@@ -1,0 +1,76 @@
+lambda = 0 , hidden = 50
+ Training set Accuracy:95.47%
+(10000, 10)
+ Test set Accuracy:    94.98%
+
+lambda = 10 , hidden = 50
+Training set Accuracy:95.09333333333333%
+(10000, 10)
+ Test set Accuracy:    94.65%
+
+lambda = 20 , hidden = 50
+Training set Accuracy:94.83500000000001%
+(10000, 10)
+ Test set Accuracy:    94.63000000000001%
+
+lambda = 30 , hidden = 50
+Training set Accuracy:95.12%
+(10000, 10)
+ Test set Accuracy:    94.95%
+
+lambda = 40 , hidden = 50
+Training set Accuracy:94.64333333333333%
+(10000, 10)
+ Test set Accuracy:    94.39999999999999%
+
+lambda = 50 , hidden = 50
+Training set Accuracy:94.50833333333334%
+(10000, 10)
+ Test set Accuracy:    94.53%
+
+lambda = 60 , hidden = 50
+Training set Accuracy:94.04666666666667%
+(10000, 10)
+ Test set Accuracy:    93.84%
+
+lambda = 0 , hidden = 4
+Training set Accuracy:46.0%
+(10000, 10)
+ Test set Accuracy:    45.71%
+Your program finished in 0 minutes 54 seconds!
+
+lambda = 0 , hidden = 8
+Training set Accuracy:88.60166666666667%
+(10000, 10)
+ Test set Accuracy:    88.35%
+Your program finished in 0 minutes 57 seconds!
+
+lambda = 0 , hidden = 12
+Training set Accuracy:90.85166666666666%
+(10000, 10)
+ Test set Accuracy:    90.25%
+Your program finished in 1 minutes 2 seconds!
+
+lambda = 0 , hidden = 16
+Training set Accuracy:92.39%
+(10000, 10)
+ Test set Accuracy:    92.29%
+Your program finished in 1 minutes 2 seconds!
+
+lambda = 0 , hidden = 20
+Training set Accuracy:93.31%
+(10000, 10)
+ Test set Accuracy:    93.08%
+Your program finished in 1 minutes 15 seconds! 
+
+lambda = 10 , hidden = 20
+Training set Accuracy:93.155%
+(10000, 10)
+ Test set Accuracy:    92.94%
+Your program finished in 1 minutes 13 seconds!
+
+lambda = 20 , hidden = 16
+Training set Accuracy:92.10333333333334%
+(10000, 10)
+ Test set Accuracy:    92.24%
+Your program finished in 1 minutes 1 seconds!

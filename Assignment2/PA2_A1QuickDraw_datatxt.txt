@@ -1,0 +1,159 @@
+lambda = 0
+
+/Users/Harrison/venv/bin/python /Users/Harrison/Downloads/nnScript.py
+training done!
+(100000, 10)
+
+ Training set Accuracy:76.81%
+(25000, 10)
+
+ Test set Accuracy:    75.824%
+
+Process finished with exit code 0
+
+lambda = 10
+
+/Users/Harrison/venv/bin/python /Users/Harrison/Downloads/nnScript.py
+training done!
+(100000, 10)
+
+ Training set Accuracy:75.679%
+(25000, 10)
+
+ Test set Accuracy:    75.228%
+
+Process finished with exit code 0
+
+lambda = 20
+
+/Users/Harrison/venv/bin/python /Users/Harrison/Downloads/nnScript.py
+training done!
+(100000, 10)
+
+ Training set Accuracy:74.923%
+(25000, 10)
+
+ Test set Accuracy:    74.276%
+
+Process finished with exit code 0
+
+lambda = 30
+
+/Users/Harrison/venv/bin/python /Users/Harrison/Downloads/nnScript.py
+training done!
+(100000, 10)
+
+ Training set Accuracy:76.483%
+(25000, 10)
+
+ Test set Accuracy:    75.788%
+
+Process finished with exit code 0
+
+lambda = 40
+
+/Users/Harrison/venv/bin/python /Users/Harrison/Downloads/nnScript.py
+training done!
+(100000, 10)
+
+ Training set Accuracy:74.42%
+(25000, 10)
+
+ Test set Accuracy:    73.87599999999999%
+
+Process finished with exit code 0
+
+lambda = 50
+
+/Users/Harrison/venv/bin/python /Users/Harrison/Downloads/nnScript.py
+training done!
+(100000, 10)
+
+ Training set Accuracy:74.823%
+(25000, 10)
+
+ Test set Accuracy:    74.21600000000001%
+
+Process finished with exit code 0
+
+lambda = 60
+
+/Users/Harrison/venv/bin/python /Users/Harrison/Downloads/nnScript.py
+training done!
+(100000, 10)
+
+ Training set Accuracy:74.126%
+(25000, 10)
+
+ Test set Accuracy:    73.46000000000001%
+
+Process finished with exit code 0
+
+
+lambda =0, hidden = 4
+
+/Users/Harrison/venv/bin/python /Users/Harrison/Downloads/nnScript.py
+training done!
+(100000, 10)
+
+ Training set Accuracy:51.01599999999999%
+(25000, 10)
+
+ Test set Accuracy:    51.068000000000005%
+
+Process finished with exit code 0
+
+lambda = 0, hidden = 8
+
+/Users/Harrison/venv/bin/python /Users/Harrison/Downloads/nnScript.py
+training done!
+(100000, 10)
+
+ Training set Accuracy:62.495%
+(25000, 10)
+
+ Test set Accuracy:    61.79599999999999%
+
+Process finished with exit code 0
+
+lambda = 0, hidden = 12
+
+/Users/Harrison/venv/bin/python /Users/Harrison/Downloads/nnScript.py
+training done!
+(100000, 10)
+
+ Training set Accuracy:70.147%
+(25000, 10)
+
+ Test set Accuracy:    69.44%
+
+Process finished with exit code 0
+
+lambda = 0, hidden = 16
+
+/Users/Harrison/venv/bin/python /Users/Harrison/Downloads/nnScript.py
+training done!
+(100000, 10)
+
+ Training set Accuracy:72.70400000000001%
+(25000, 10)
+
+ Test set Accuracy:    72.02%
+
+Process finished with exit code 0
+
+lambda = 0, hidden = 20
+
+/Users/Harrison/venv/bin/python /Users/Harrison/Downloads/nnScript.py
+training done!
+(100000, 10)
+
+ Training set Accuracy:72.626%
+(25000, 10)
+
+ Test set Accuracy:    71.604%
+
+Process finished with exit code 0
+
+
+
