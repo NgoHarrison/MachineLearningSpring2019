@@ -35,7 +35,8 @@ training_iteration_num = 3000
 
 n_hidden_1 = 256  # 1st layer number of neurons
 n_hidden_2 = 256  # 2nd layer number of neurons
-n_input = data_train.shape[1]  # MNIST data input (img shape: 28*28)
+n_hidden_3 = 256  # 3rd layer number of neurons
+n_input = data_train.shape[1]  # MNIST data input (img # shape: 28*28)
 n_classes = label_train.shape[1]  # MNIST total classes (0-9 digits)
 dropout = 0.5
 
@@ -47,11 +48,13 @@ Y = tf.placeholder("float", [None, n_classes])
 weights = {
     'h1': tf.Variable(tf.random_normal([n_input, n_hidden_1])),
     'h2': tf.Variable(tf.random_normal([n_hidden_1, n_hidden_2])),
-    'out': tf.Variable(tf.random_normal([n_hidden_2, n_classes]))
+    'h3': tf.Variable(tf.random_normal([n_hidden_2, n_hidden_3])),
+    'out': tf.Variable(tf.random_normal([n_hidden_3, n_classes]))
 }
 biases = {
     'b1': tf.Variable(tf.random_normal([n_hidden_1])),
     'b2': tf.Variable(tf.random_normal([n_hidden_2])),
+    'b3': tf.Variable(tf.random_normal([n_hidden_3])),
     'out': tf.Variable(tf.random_normal([n_classes]))
 }
 
@@ -66,8 +69,13 @@ def multilayer_perceptron(x):
     layer_2 = tf.nn.sigmoid(layer_2)
     # layer_2 = tf.nn.dropout(layer_2, dropout)
 
+    # Hidden fully connected layer with 128 neurons
+    layer_3 = tf.add(tf.matmul(layer_2,weights['h3']),biases['b3'])
+    layer_3 = tf.nn.sigmoid(layer_3)
+
+
     # Output fully connected layer with a neuron for each class
-    out_layer = tf.matmul(layer_2, weights['out']) + biases['out']
+    out_layer = tf.matmul(layer_3, weights['out']) + biases['out']
     return out_layer
 
 
