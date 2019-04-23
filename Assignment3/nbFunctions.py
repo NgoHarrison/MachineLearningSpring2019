@@ -10,13 +10,24 @@ class NBC(BaseEstimator):
     (a,b) - Beta prior parameters for the class random variable
     alpha - Symmetric Dirichlet parameter for the features
     '''
+
     def __init__(self, a=1, b=1, alpha=1):
         self.__a = a
         self.__b = b
         self.__alpha = alpha
         self.__params = None
         
+    def get_a(self):
+        return self.__a
+
+    def get_b(self):
+        return self.__b
+
+    def get_alpha(self):
+        return self.__alpha
+
     # you need to implement this function
+
     def fit(self,X,y):
         '''
         This function does not return anything
@@ -25,14 +36,14 @@ class NBC(BaseEstimator):
         X: Training data set (N x d numpy array)
         y: Labels (N length numpy array)
         '''
-        a = self.__a
-        b = self.__b
-        alpha = self.__alpha
+        a = self.get_a()
+        b = self.get_b()
+        alpha = self.get_alpha()
         self.__classes = np.unique(y)
 
         # remove next line and implement from here
         # you are free to use any data structure for paramse
-        params = None
+        params = None 
         # do not change the line below
         self.__params = params
     
@@ -48,6 +59,9 @@ class NBC(BaseEstimator):
         predictions: N length numpy array containing the predictions
         '''
         params = self.__params
+        a = self.get_a()
+        b = self.get_b()
+        alpha = self.get_alpha()
         #remove next line and implement from here
         predictions = np.random.choice(self.__classes,np.unique(Xtest.shape[0]))
         #do not change the line below
